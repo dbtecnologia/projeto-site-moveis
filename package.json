@@ -1,0 +1,12 @@
+{
+  "name": "montai-moveis",
+  "private": true,
+  "version": "1.0.0",
+  "description": "E-commerce Montaí Móveis com catálogo configurável e motor de orçamento.",
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.2"
+  }
+}

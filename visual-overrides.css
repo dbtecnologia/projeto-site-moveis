@@ -1,0 +1,33 @@
+/* Art direction: editorial furniture studio, less template-like and more tactile. */
+:root { --ink:#171916; --cream:#ece9df; --paper:#f8f7f3; --sage:#aebca3; --line:#d3d2c9; }
+.header { height:82px; }
+.brand { font-size:23px; letter-spacing:-.055em; }
+.brand-mark { border-radius:50%; background:#819276; font-size:16px; }
+.nav { gap:34px; text-transform:uppercase; letter-spacing:.08em; font-size:11px; }
+.hero { min-height:650px; grid-template-columns:44% 56%; }
+.hero-copy { padding-left:10vw; }
+.hero h1 { font-size:clamp(58px,7.6vw,104px); line-height:.9; }
+.hero-text { font-size:17px; line-height:1.65; }
+.hero-image { filter:saturate(.8); }
+.hero-image:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(16,20,15,.08),transparent 35%); pointer-events:none; }
+.benefits { background:#e4e3d9; padding-top:30px; padding-bottom:30px; }
+.section h2,.custom-copy h2,.newsletter h2 { font-weight:500; }
+.category-grid { gap:16px; }
+.category-card { min-height:180px; padding:25px; border-radius:0; }
+.category-card strong { font-size:27px; }
+.product-grid { gap:28px 22px; }
+.product-photo { border-radius:0; background-color:#e2e1da; transition:transform 260ms var(--ease), filter 260ms ease; }
+.product-card:hover .product-photo { transform:translateY(-5px); filter:saturate(.9) contrast(1.04); }
+.product-info { border-bottom:1px solid var(--line); padding:16px 0 18px; }
+.product-info p { font-family:'Playfair Display',serif; font-size:20px; }
+.product-info .text-link { display:inline-block; margin-top:10px; border-bottom:0; font-size:12px; letter-spacing:.04em; text-transform:uppercase; }
+.custom-section { min-height:570px; }
+.custom-art { filter:saturate(.78); }
+.custom-copy h2 { max-width:520px; }
+.inspiration-grid { gap:28px; }
+.inspire-image { filter:saturate(.76); transition:filter 220ms ease, transform 260ms var(--ease); }
+.inspiration article:hover .inspire-image { filter:saturate(1); transform:translateY(-4px); }
+.newsletter { padding:110px 20px; }
+.footer { padding-top:75px; padding-bottom:75px; }
+@media (hover:hover) and (pointer:fine) { .button:hover { transform:translateY(-2px); } }
+@media (prefers-reduced-motion:reduce) { *,*:before,*:after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }

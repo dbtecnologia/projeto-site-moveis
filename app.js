@@ -1,0 +1,20 @@
+const products=[
+ {name:'Estante Ninho',category:'Sala',price:2890,image:'https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=700&q=80',badge:'Mais querido'},
+ {name:'Escrivaninha Serena',category:'Home Office',price:1690,image:'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=80',badge:'Novo'},
+ {name:'Rack Ária',category:'Sala',price:2190,image:'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=700&q=80',badge:'Personalizável'},
+ {name:'Cômoda Clara',category:'Quarto',price:1980,image:'https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=700&q=80',badge:''}
+];
+let activeFilter='Todos',cart=[];
+const money=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function renderProducts(){const grid=document.querySelector('#product-grid');grid.innerHTML=products.filter(p=>activeFilter==='Todos'||p.category===activeFilter).map((p,i)=>`<article class="product-card" style="animation-delay:${i*55}ms"><button class="product-photo" style="background-image:url('${p.image}')" aria-label="Ver ${p.name}">${p.badge?`<span class="product-badge">${p.badge}</span>`:''}</button><div class="product-info"><p>${p.name}</p><span>${p.category} · do seu jeito</span><strong>${money(p.price)}</strong><button class="text-link add-product" data-name="${p.name}">Adicionar à sacola →</button></div></article>`).join('');document.querySelectorAll('.add-product').forEach(b=>b.onclick=()=>addToCart(products.find(p=>p.name===b.dataset.name)));}
+function addToCart(p){cart.push(p);renderCart();document.querySelector('.cart-drawer').classList.add('open');document.querySelector('.overlay').classList.add('open');}
+function renderCart(){document.querySelector('#cart-count').textContent=cart.length;document.querySelector('#cart-total').textContent=money(cart.reduce((s,p)=>s+p.price,0));document.querySelector('#cart-items').innerHTML=cart.length?cart.map(p=>`<div class="cart-item"><img src="${p.image}" alt=""><div><p>${p.name}</p><span>${money(p.price)}</span></div></div>`).join(''):'<p class="empty-cart">Sua sacola está esperando por você.</p>';}
+function setFilter(filter){activeFilter=filter;document.querySelectorAll('[data-filter]').forEach(el=>el.classList.toggle('active',el.dataset.filter===filter));renderProducts();}
+document.querySelectorAll('[data-filter]').forEach(el=>el.addEventListener('click',()=>setFilter(el.dataset.filter)));
+document.querySelector('.cart-button').onclick=()=>{document.querySelector('.cart-drawer').classList.add('open');document.querySelector('.overlay').classList.add('open')};
+function closeCart(){document.querySelector('.cart-drawer').classList.remove('open');document.querySelector('.overlay').classList.remove('open')};document.querySelector('.close-cart').onclick=closeCart;document.querySelector('.overlay').onclick=closeCart;
+document.querySelector('#newsletter-form').onsubmit=e=>{e.preventDefault();document.querySelector('#newsletter-message').textContent='Pronto. Você está na nossa lista.';e.target.reset()};
+renderProducts();
+const fanItems=[...document.querySelectorAll('.fan-item')];let fanIndex=2;
+function renderFan(){fanItems.forEach((item,i)=>{let d=(i-fanIndex+fanItems.length)%fanItems.length;if(d>2)d-=fanItems.length;item.style.display=Math.abs(d)<=2?'block':'none';item.style.zIndex=3-Math.abs(d);const x=d*94;const rot=d*6;const scale=d===0?1:.95-Math.abs(d)*.035;item.style.transform=`translateX(calc(-50% + ${x}px)) rotate(${rot}deg) scale(${scale})`;item.style.opacity=d===0?'1':Math.abs(d)===1?'.9':'.72';item.querySelector('.inspire-image').style.filter=d===0?'saturate(.9)':'saturate(.55)';item.querySelector('p').style.opacity=d===0?'1':'0';item.querySelector('span').style.opacity=d===0?'1':'0'})};
+document.querySelector('.fan-prev').onclick=()=>{fanIndex=(fanIndex-1+fanItems.length)%fanItems.length;renderFan()};document.querySelector('.fan-next').onclick=()=>{fanIndex=(fanIndex+1)%fanItems.length;renderFan()};renderFan();

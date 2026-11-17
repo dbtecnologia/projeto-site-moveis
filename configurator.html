@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Monte seu móvel sob medida na Montaé.">
+  <title>Monte seu móvel · Montaé</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="configurator.css">
+  <link rel="stylesheet" href="manufacturer-catalog.css">
+</head>
+<body>
+  <header class="config-header">
+    <a class="config-brand" href="index.html" aria-label="Voltar para a loja">
+      <img src="assets/montae-logo.png" alt="MONTAE">
+    </a>
+    <div class="config-header-copy">
+      <span>PERSONALIZAÇÃO DE VERDADE</span>
+      <strong>Monte seu móvel</strong>
+    </div>
+    <a class="back-link" href="index.html">← Voltar para a loja</a>
+  </header>
+
+  <main class="configurator-shell">
+    <section class="viewer-card" aria-label="Visualização do móvel">
+      <div class="viewer-toolbar">
+        <div>
+          <span class="eyebrow">VISUALIZAÇÃO EM TEMPO REAL</span>
+          <h1 id="viewer-title">Móvel personalizado</h1>
+        </div>
+        <button class="ghost-button" type="button" id="save-image">Salvar imagem ↗</button>
+      </div>
+      <div class="viewer-stage">
+        <canvas id="scene" aria-label="Modelo 3D do móvel personalizado"></canvas>
+        <div class="dimension dimension-width"><span id="dimension-width">120 cm</span></div>
+        <div class="dimension dimension-height"><span id="dimension-height">200 cm</span></div>
+        <div class="dimension dimension-depth"><span id="dimension-depth">50 cm</span></div>
+        <div class="viewer-status" id="viewer-status">Carregando visualização…</div>
+      </div>
+      <div class="viewer-footer">
+        <span>Arraste para girar</span><span>Scroll para aproximar</span><span>Modelo paramétrico</span>
+      </div>
+    </section>
+
+    <section class="config-card" aria-label="Configuração do móvel">
+      <div class="step-tabs" role="tablist" aria-label="Etapas da configuração">
+        <button class="step-tab is-active" type="button" data-step="model">1. Modelo</button>
+        <button class="step-tab" type="button" data-step="dimensions">2. Medidas</button>
+        <button class="step-tab" type="button" data-step="finish">3. Material</button>
+        <button class="step-tab" type="button" data-step="components">4. Componentes</button>
+        <button class="step-tab" type="button" data-step="references">5. Referências</button>
+        <button class="step-tab" type="button" data-step="summary">6. Resumo</button>
+      </div>
+
+      <div class="config-scroll">
+        <form id="config-form">
+          <section class="step-panel is-active" data-panel="model">
+            <span class="eyebrow">COMECE PELO MODELO</span>
+            <h2>Que móvel você quer criar?</h2>
+            <span class="field-label model-picker-label">Escolha um modelo para começar</span>
+            <div class="model-options" id="model-options" role="listbox" aria-label="Modelos de móveis"></div>
+            <select id="model" data-field="model" class="model-select-hidden" tabindex="-1" aria-hidden="true">
+              <option value="custom-wardrobe">Armário personalizado</option>
+              <option value="custom-closet">Guarda-roupa personalizado</option>
+              <option value="custom-rack">Rack personalizado</option>
+              <option value="custom-shelf">Estante personalizada</option>
+              <option value="custom-kitchen">Móvel de cozinha personalizado</option>
+              <option value="custom-bathroom">Gabinete personalizado</option>
+              <option value="custom-desk">Escrivaninha personalizada</option>
+              <option value="custom-sideboard">Aparador personalizado</option>
+            </select>
+            <p class="helper">A estrutura inicial pode ser ajustada nas próximas etapas.</p>
+            <div class="step-actions"><button class="primary-button" type="button" data-next="dimensions">Continuar →</button></div>
+          </section>
+
+          <section class="step-panel" data-panel="dimensions">
+            <span class="eyebrow">MEDIDAS EM CENTÍMETROS</span>
+            <h2>Defina o tamanho ideal</h2>
+            <div class="field-grid">
+              <label class="field-label">Largura<input data-field="width" type="number" min="40" max="300" step="1" value="120"><small>40–300 cm</small></label>
+              <label class="field-label">Altura<input data-field="height" type="number" min="60" max="280" step="1" value="200"><small>60–280 cm</small></label>
+              <label class="field-label">Profundidade<input data-field="depth" type="number" min="25" max="90" step="1" value="50"><small>25–90 cm</small></label>
+              <label class="field-label">Espessura do MDF<select data-field="thickness"><option value="15">15 mm</option><option value="18" selected>18 mm</option><option value="25">25 mm</option></select></label>
+            </div>
+            <p class="validation-message" id="dimensions-message" role="alert"></p>
+            <div class="step-actions"><button class="secondary-button" type="button" data-prev="model">← Voltar</button><button class="primary-button" type="button" data-next="finish">Continuar →</button></div>
+          </section>
+
+          <section class="step-panel" data-panel="finish">
+            <span class="eyebrow">ACABAMENTO</span>
+            <h2>Escolha a textura do MDF</h2>
+            <div class="config-manufacturer-panel">
+              <span>Escolha o fabricante para ver somente os padrões cadastrados para essa marca.</span>
+              <div class="config-manufacturer-grid" id="manufacturer-options" role="radiogroup" aria-label="Fabricantes de MDF"></div>
+              <p class="featured-material-status" id="manufacturer-status" aria-live="polite"></p>
+            </div>
+            <div class="material-toolbar"><span>Selecione uma opção para visualizar no móvel</span><strong id="material-count">32 opções</strong></div>
+            <div class="material-grid material-grid-expanded" id="material-options" role="radiogroup" aria-label="Cores e padrões de MDF"></div>
+            <div class="step-actions"><button class="secondary-button" type="button" data-prev="dimensions">← Voltar</button><button class="primary-button" type="button" data-next="components">Continuar →</button></div>
+          </section>
+
+          <section class="step-panel" data-panel="components">
+            <span class="eyebrow">COMPONENTES</span>
+            <h2>Monte por dentro e por fora</h2>
+            <div class="range-row"><label for="doors">Portas <output id="doors-output">2</output></label><input id="doors" data-field="doors" type="range" min="0" max="4" step="1" value="2"></div>
+            <div class="range-row"><label for="drawers">Gavetas <output id="drawers-output">0</output></label><input id="drawers" data-field="drawers" type="range" min="0" max="6" step="1" value="0"></div>
+            <div class="range-row"><label for="shelves">Prateleiras <output id="shelves-output">3</output></label><input id="shelves" data-field="shelves" type="range" min="0" max="8" step="1" value="3"></div>
+            <label class="toggle-row"><input data-field="openDoors" type="checkbox"><span class="toggle-ui"></span><span>Mostrar portas abertas</span></label>
+            <p class="helper">A distribuição interna será refinada quando as regras de fabricação do modelo forem cadastradas.</p>
+            <div class="step-actions"><button class="secondary-button" type="button" data-prev="finish">← Voltar</button><button class="primary-button" type="button" data-next="references">Continuar →</button></div>
+          </section>
+
+          <section class="step-panel" data-panel="references">
+            <span class="eyebrow">REFERÊNCIA DO CLIENTE</span>
+            <h2>Mostre o móvel que você quer</h2>
+            <p class="helper reference-intro">Envie fotos do ambiente, imagens de inspiração ou um vídeo do móvel. Nossa equipe usa esse material junto com as medidas acima para entender melhor o seu projeto.</p>
+
+            <label class="upload-dropzone" for="reference-media">
+              <input id="reference-media" class="reference-media-input" type="file" accept="image/*,video/*" multiple>
+              <span class="upload-icon" aria-hidden="true">＋</span>
+              <strong>Adicionar fotos ou vídeo</strong>
+              <small>JPG, PNG, WEBP ou MP4 · até 8 arquivos</small>
+            </label>
+            <p class="reference-media-meta" id="reference-media-meta" aria-live="polite">Nenhum arquivo adicionado.</p>
+            <div class="reference-media-preview" id="reference-media-preview" aria-live="polite"></div>
+
+            <div class="reference-measures" aria-label="Medidas do projeto">
+              <span><small>Largura</small><strong id="reference-width">120 cm</strong></span>
+              <span><small>Altura</small><strong id="reference-height">200 cm</strong></span>
+              <span><small>Profundidade</small><strong id="reference-depth">50 cm</strong></span>
+            </div>
+
+            <label class="field-label reference-notes-label" for="reference-notes">Observações para a equipe
+              <textarea id="reference-notes" data-field="referenceNotes" rows="4" maxlength="1000" placeholder="Ex.: quero aproveitar a parede inteira, manter as portas deste modelo e usar puxadores pretos."></textarea>
+              <small>Até 1.000 caracteres</small>
+            </label>
+
+            <div class="step-actions"><button class="secondary-button" type="button" data-prev="components">← Voltar</button><button class="primary-button" type="button" data-next="summary">Ver resumo →</button></div>
+          </section>
+
+          <section class="step-panel" data-panel="summary">
+            <span class="eyebrow">SEU PROJETO</span>
+            <h2>Confira antes de salvar</h2>
+            <dl class="summary-list" id="summary-list"></dl>
+            <div class="pending-note"><strong>Próxima etapa</strong><span>Salve o projeto ou compartilhe a configuração com as referências anexadas para pedir um orçamento.</span></div>
+            <div class="step-actions"><button class="secondary-button" type="button" data-prev="references">← Voltar</button><button class="secondary-button" type="button" id="share-project">Compartilhar</button><button class="primary-button" type="button" id="save-project">Salvar projeto</button></div>
+          </section>
+        </form>
+      </div>
+
+      <aside class="price-box" aria-live="polite">
+        <div><span>Preço estimado do móvel</span><strong id="price">Calculando…</strong><small id="price-note">Freijó · 2 portas · 3 prateleiras</small></div>
+        <div class="price-actions"><button class="secondary-button" type="button" id="add-cart">Adicionar à sacola</button><button class="primary-button" type="button" id="buy-now">Comprar agora</button></div>
+      </aside>
+    </section>
+  </main>
+
+  <section class="assembly-section" id="montagem" aria-labelledby="assembly-title">
+    <div class="assembly-intro">
+      <span class="eyebrow">MONTAGEM SEM DÚVIDAS</span>
+      <h2 id="assembly-title">Veja como cada peça entra no seu móvel.</h2>
+      <p>O projeto já deixa separado o que será entregue, quais ferragens usar e em que ordem montar. Assim, você recebe um móvel sob medida que também é simples de instalar.</p>
+      <div class="assembly-actions">
+        <button class="primary-button" type="button" id="assembly-explode">Ver peças separadas</button>
+        <button class="secondary-button" type="button" id="print-manual">Imprimir manual</button>
+      </div>
+      <div class="assembly-note"><strong>Ferramentas necessárias</strong><span>Chave Phillips, nível e furadeira com broca adequada à sua parede.</span></div>
+    </div>
+
+    <div class="assembly-workbench">
+      <div class="assembly-progress-row">
+        <div><span class="eyebrow">SEU MANUAL PERSONALIZADO</span><strong id="assembly-progress-label">0 de 5 etapas concluídas</strong></div>
+        <button class="text-button" type="button" id="reset-assembly">Recomeçar</button>
+      </div>
+      <div class="assembly-progress"><span id="assembly-progress-bar"></span></div>
+      <div class="assembly-steps" id="assembly-steps">
+        <button class="assembly-step is-current" type="button" data-assembly-step="0"><span>01</span><strong>Separe as peças</strong><small>Confira códigos e ferragens.</small></button>
+        <button class="assembly-step" type="button" data-assembly-step="1"><span>02</span><strong>Monte a caixa</strong><small>Una laterais, base e tampo.</small></button>
+        <button class="assembly-step" type="button" data-assembly-step="2"><span>03</span><strong>Instale o interior</strong><small>Posicione fundo e prateleiras.</small></button>
+        <button class="assembly-step" type="button" data-assembly-step="3"><span>04</span><strong>Coloque frentes</strong><small>Portas, gavetas e puxadores.</small></button>
+        <button class="assembly-step" type="button" data-assembly-step="4"><span>05</span><strong>Nivele e fixe</strong><small>Faça a conferência final.</small></button>
+      </div>
+      <button class="assembly-complete" type="button" id="complete-assembly">Marcar etapa como concluída</button>
+    </div>
+
+    <div class="assembly-inventory">
+      <div class="inventory-card"><span class="eyebrow">PEÇAS DO PROJETO</span><h3>O que vem na caixa</h3><div id="parts-list" class="inventory-list"></div></div>
+      <div class="inventory-card"><span class="eyebrow">FERRAGENS</span><h3>Kit de montagem</h3><div id="hardware-list" class="inventory-list"></div></div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/examples/jsm/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+  </script>
+  <script src="guararapes-catalog.js"></script>
+  <script src="manufacturer-catalog.js"></script>
+  <script type="module" src="configurator.js"></script>
+</body>
+</html>
